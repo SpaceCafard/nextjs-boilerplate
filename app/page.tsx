@@ -10,27 +10,35 @@ type Fighter = {
   created_at: string // ou Date, mais en général Supabase retourne un string ISO
 }
 
-export default function Example() {
-  const [data, setData] = useState<Fighter[]>([])
+export default function Page() {
+  const [fighters, setFighters] = useState<Fighter[]>([])
 
   useEffect(() => {
-    const fetchData = async () => {
-      const { data, error } = await supabase
-        .from('TierList') // remplace par ta table
-        .select('*')
-      if (error) {
-        console.error('Erreur:', error)
-      } else {
-        setData(data)
+      const fetchFighters = async () => {
+          const { data, error } = await supabase
+              .from('fighters')
+              .select('*')
+
+          if (error) {
+              console.error('Erreur lors de la récupération:', error.message)
+          } else {
+              setFighters(data as Fighter[])
+          }
       }
-    }
-    fetchData()
+
+      fetchFighters()
   }, [])
 
   return (
     <div>
-      <h1>List Fighter</h1>
-      <pre>{JSON.stringify(data, null, 2)}</pre>
+        <h1>Liste des Fighters</h1>
+        <ul>
+            {fighters.map(fighter => (
+                <li key={fighter.id}>
+                    {fighter.name} - Winrate: {fighter.winrate}%
+                </li>
+            ))}
+        </ul>
     </div>
-  )
+)
 }
