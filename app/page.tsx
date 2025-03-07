@@ -1,5 +1,5 @@
 import { supabase } from '../lib/supabaseClient'
-import React from 'react'
+import { useState,useEffect } from 'react'
 
 type fighter = {
   id: number
@@ -8,9 +8,9 @@ type fighter = {
 }
 
 export default function Example() {
-  const [data, setData] = React.useState<fighter[]>([])
+  const [data, setData] = useState<fighter[]>([])
 
-  React.useEffect(() => {
+  useEffect(() => {
     const fetchData = async () => {
       const { data, error } = await supabase
         .from('TierList') // remplace par ta table
