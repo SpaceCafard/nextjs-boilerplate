@@ -1,4 +1,4 @@
-import { signup,login } from "./actions";
+import { signup,login } from "../actions/actions"
 
 
 
