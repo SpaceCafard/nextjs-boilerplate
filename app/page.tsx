@@ -3,14 +3,15 @@
 import { supabase } from '../lib/supabaseClient'
 import { useState,useEffect } from 'react'
 
-type fighter = {
+type Fighter = {
   id: number
   name: string
   winrate: number
+  created_at: string // ou Date, mais en général Supabase retourne un string ISO
 }
 
 export default function Example() {
-  const [data, setData] = useState<fighter[]>([])
+  const [data, setData] = useState<Fighter[]>([])
 
   useEffect(() => {
     const fetchData = async () => {
