@@ -1,7 +1,33 @@
-import Image from "next/image";
+import { supabase } from '../lib/supabaseClient'
+import React from 'react'
 
-export default function Home() {
+type fighter = {
+  id: number
+  name: string
+  winrate: number
+}
+
+export default function Example() {
+  const [data, setData] = React.useState<fighter[]>([])
+
+  React.useEffect(() => {
+    const fetchData = async () => {
+      const { data, error } = await supabase
+        .from('TierList') // remplace par ta table
+        .select('*')
+      if (error) {
+        console.error('Erreur:', error)
+      } else {
+        setData(data)
+      }
+    }
+    fetchData()
+  }, [])
+
   return (
-    <h1>The 1972 project, "Les Enfants Terribles"</h1>
-  );
+    <div>
+      <h1>List Fighter</h1>
+      <pre>{JSON.stringify(data, null, 2)}</pre>
+    </div>
+  )
 }
